@@ -11,11 +11,11 @@ int main() {
     bool mainMenu = true;
     
     // MAIN MENU
-    Sprite background(0,0,320,240,"res/mainmenu.png");
-    TextureButton play(182,66,96,24,"res/playbutton_def.png","res/playbutton_prs.png");
-    TextureButton how(182,106,96,25,"res/howbutton_def.png","res/howbutton_prs.png");
-    TextureButton stats(203,213,40,11,"res/statbutton_def.png","res/statbutton_prs.png");
-    TextureButton credits(261,216,42,11,"res/creditbutton_def.png","res/creditbutton_prs.png");
+    Sprite background(0,0,320,240,"res/backdrop/mainmenu.png");
+    TextureButton play(182,66,96,24,"res/ui/playbutton_def.png","res/ui/playbutton_prs.png");
+    TextureButton how(182,106,96,25,"res/ui/howbutton_def.png","res/ui/howbutton_prs.png");
+    TextureButton stats(203,213,40,11,"res/ui/statbutton_def.png","res/ui/statbutton_prs.png");
+    TextureButton credits(261,216,42,11,"res/ui/creditbutton_def.png","res/ui/creditbutton_prs.png");
 
     std::vector<CanvasItem*> mainMenuCanvas = {
         &background,
