@@ -3,6 +3,7 @@
 
 #include "input.h"
 #include "../global.h"
+#include "FEHImages.h"
 
 class CanvasItem {
     protected:
@@ -30,6 +31,28 @@ class Button : public CanvasItem {
         Button(Vector2, Vector2);
         Button(float, float, float, float);
         void poll(ClickEvent*);
+        void draw();
+};
+
+class TextureButton : public Button {
+    protected:
+        FEHImage defaultTexture;
+        FEHImage pressedTexture;
+    
+    public:
+        TextureButton(Vector2, Vector2, char[], char[]);
+        TextureButton(float, float, float, float, char[], char[]);
+        void draw();
+};
+
+class Sprite : public CanvasItem {
+    protected:
+        FEHImage texture;
+    
+    public:
+        Sprite(Vector2, Vector2, char[]);
+        Sprite(float, float, float, float, char[]);
+        void setTexture(FEHImage);
         void draw();
 };
 

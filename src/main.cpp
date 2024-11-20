@@ -12,14 +12,19 @@ int main() {
     
     CanvasItem testItem(100,100,50,50);
     Button testButton(25,25,50,50);
+    TextureButton testTextureButton(150,50,10,10,"testbutton1.png","testbutton2.png");
+    Sprite testSprite(150,150,10,10,"testasset.png");
 
     std::vector<CanvasItem*> mainMenuCanvas = {
         &testItem,
-        &testButton
+        &testButton,
+        &testTextureButton,
+        &testSprite
     };
 
     std::vector<Button*> mainMenuClickables = {
-        &testButton
+        &testButton,
+        &testTextureButton
     };
 
     while (running) {

@@ -1,4 +1,5 @@
 #include "FEHLCD.h"
+#include "FEHImages.h"
 #include "input.h"
 #include "../global.h"
 #include "interface.h"
@@ -49,4 +50,44 @@ void Button::poll(ClickEvent* eventPtr) {
     if (event.start.x > position.x && event.start.x < position.x+size.x && event.start.y > position.y && event.start.y < position.y+size.y) {
         state = event.mouse_down;
     }
+}
+
+// constructors
+TextureButton::TextureButton(Vector2 pos, Vector2 siz, char tex[], char pressTex[]) : Button(pos, siz) {
+    defaultTexture = FEHImage();
+    defaultTexture.Open(tex);
+    pressedTexture = FEHImage();
+    pressedTexture.Open(pressTex);
+}
+TextureButton::TextureButton(float posx, float posy, float sizx, float sizy, char tex[], char pressTex[]) : Button(posx, posy, sizx, sizy) {
+    defaultTexture = FEHImage();
+    defaultTexture.Open(tex);
+    pressedTexture = FEHImage();
+    pressedTexture.Open(pressTex);
+}
+
+void TextureButton::draw() {
+    if (state) {
+        pressedTexture.Draw(position.x, position.y);
+    } else {
+        defaultTexture.Draw(position.x, position.y);
+    }
+}
+
+// constuctors
+Sprite::Sprite(Vector2 pos, Vector2 siz, char tex[]) : CanvasItem(pos, siz) {
+    texture = FEHImage();
+    texture.Open(tex);
+}
+Sprite::Sprite(float posx, float posy, float sizx, float sizy, char tex[]) : CanvasItem(posx, posy, sizx, sizy) {
+    texture = FEHImage();
+    texture.Open(tex);
+}
+
+void Sprite::draw() {
+    texture.Draw(position.x, position.y);
+}
+
+void Sprite::setTexture(FEHImage tex) {
+    texture = tex;
 }
