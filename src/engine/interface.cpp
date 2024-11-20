@@ -44,12 +44,20 @@ void Button::draw() {
     LCD.FillRectangle(position.x,position.y,size.x,size.y);
 }
 
-void Button::poll(ClickEvent* eventPtr) {
+// returns true if event was the end of a press.
+bool Button::poll(ClickEvent* eventPtr) {
     ClickEvent event = *eventPtr;
+    bool isRelease = false;
 
     if (event.start.x > position.x && event.start.x < position.x+size.x && event.start.y > position.y && event.start.y < position.y+size.y) {
+        isRelease = state && !event.mouse_down;
         state = event.mouse_down;
     }
+    return isRelease;
+}
+
+bool Button::isPressed() {
+    return state;
 }
 
 // constructors

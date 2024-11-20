@@ -32,6 +32,14 @@ int main() {
         &credits
     };
 
+    // GAME
+    Sprite gameBackground(0,0,320,240,"res/backdrop/gamedrop.png");
+
+    std::vector<CanvasItem*> gameCanvas = {
+        &gameBackground
+    };
+
+    // MAIN LOOP
     while (running) {
         LCD.Clear(BLACK);
 
@@ -39,8 +47,39 @@ int main() {
         if (event != NULL) {
             if (mainMenu) {
                 // Poll buttons and clickables
+                // (This is a kind of messy way of doing these pop-ups, I don't want to over-engineer it.)
                 for (Button* b : mainMenuClickables) {
-                    (*b).poll(event);
+                    bool release = (*b).poll(event);
+                    if (release && b == &play) {
+                        mainMenu = false;
+                    } else if (release && b == &how) {
+                        Sprite howBackdrop(0,0,320,240,"res/backdrop/howtoplaymenu.png");
+                        TextureButton back(10,10,25,25,"res/ui/backbutton_def.png","res/ui/backbutton_prs.png");
+                        mainMenuCanvas.push_back(&howBackdrop);
+                        mainMenuCanvas.push_back(&back);
+                        mainMenuClickables.push_back(&back);
+                    } else if (release && b == &stats) {
+                        Sprite statsBackdrop(0,0,320,240,"res/backdrop/statsmenu.png");
+                        TextureButton back(10,10,25,25,"res/ui/backbutton_def.png","res/ui/backbutton_prs.png");
+                        mainMenuCanvas.push_back(&statsBackdrop);
+                        mainMenuCanvas.push_back(&back);
+                        mainMenuClickables.push_back(&back);
+                    } else if (release && b == &credits) {
+                        Sprite creditsBackdrop(0,0,320,240,"res/backdrop/creditsmenu.png");
+                        TextureButton back(10,10,25,25,"res/ui/backbutton_def.png","res/ui/backbutton_prs.png");
+                        mainMenuCanvas.push_back(&creditsBackdrop);
+                        mainMenuCanvas.push_back(&back);
+                        mainMenuClickables.push_back(&back);
+                    } else if (release) { // Back button
+                        // free the popup
+                        delete mainMenuCanvas.back();
+                        mainMenuCanvas.pop_back();
+                        delete mainMenuCanvas.back();
+                        mainMenuCanvas.pop_back();
+
+                        delete mainMenuClickables.back();
+                        mainMenuClickables.pop_back();
+                    }
                 }
             } else {
                 // Poll buttons and clickables
@@ -53,6 +92,9 @@ int main() {
             }
         } else {
             // draw game
+            for (CanvasItem* c : gameCanvas) {
+                (*c).draw();
+            }
         }
 
         LCD.Update();

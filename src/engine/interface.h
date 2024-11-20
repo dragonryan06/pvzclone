@@ -30,7 +30,8 @@ class Button : public CanvasItem {
     public:
         Button(Vector2, Vector2);
         Button(float, float, float, float);
-        void poll(ClickEvent*);
+        bool poll(ClickEvent*);
+        bool isPressed();
         void draw();
 };
 
