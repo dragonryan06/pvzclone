@@ -10,21 +10,26 @@ int main() {
 
     bool mainMenu = true;
     
-    CanvasItem testItem(100,100,50,50);
-    Button testButton(25,25,50,50);
-    TextureButton testTextureButton(150,50,10,10,"testbutton1.png","testbutton2.png");
-    Sprite testSprite(150,150,10,10,"testasset.png");
+    // MAIN MENU
+    Sprite background(0,0,320,240,"res/mainmenu.png");
+    TextureButton play(150,150,100,50,"res/playbutton_def.png","res/playbutton_prs.png");
+    TextureButton how(150,200,100,50,"res/howbutton_def.png","res/howbutton_prs.png");
+    TextureButton stats(200,300,100,50,"res/statbutton_def.png","res/statbutton_prs.png");
+    TextureButton credits(300,300,100,50,"res/creditbutton_def.png","res/creditbutton_prs.png");
 
     std::vector<CanvasItem*> mainMenuCanvas = {
-        &testItem,
-        &testButton,
-        &testTextureButton,
-        &testSprite
+        &background,
+        &play,
+        &how,
+        &stats,
+        &credits
     };
 
     std::vector<Button*> mainMenuClickables = {
-        &testButton,
-        &testTextureButton
+        &play,
+        &how,
+        &stats,
+        &credits
     };
 
     while (running) {
