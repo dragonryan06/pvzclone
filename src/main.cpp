@@ -16,20 +16,40 @@ int main() {
     TextureButton how(182,106,96,25,"res/ui/howbutton_def.png","res/ui/howbutton_prs.png");
     TextureButton stats(203,213,40,11,"res/ui/statbutton_def.png","res/ui/statbutton_prs.png");
     TextureButton credits(261,216,42,11,"res/ui/creditbutton_def.png","res/ui/creditbutton_prs.png");
+    
+    // Back button
+    TextureButton back(10,10,25,25,"res/ui/backbutton_def.png","res/ui/backbutton_prs.png");
+    back.hide();
+
+    // How to play menu
+    Sprite howBackground(0,0,320,240,"res/backdrop/howtoplaymenu.png");
+    howBackground.hide();
+    // Stats menu
+    Sprite statsBackground(0,0,320,240,"res/backdrop/statsmenu.png");
+    statsBackground.hide();
+    // Credits menu
+    Sprite creditsBackground(0,0,320,240,"res/backdrop/creditsmenu.png");
+    creditsBackground.hide();
+    
 
     std::vector<CanvasItem*> mainMenuCanvas = {
         &background,
         &play,
         &how,
         &stats,
-        &credits
+        &credits,
+        &howBackground,
+        &statsBackground,
+        &creditsBackground,
+        &back
     };
 
     std::vector<Button*> mainMenuClickables = {
         &play,
         &how,
         &stats,
-        &credits
+        &credits,
+        &back
     };
 
     // GAME
@@ -53,32 +73,19 @@ int main() {
                     if (release && b == &play) {
                         mainMenu = false;
                     } else if (release && b == &how) {
-                        Sprite howBackdrop(0,0,320,240,"res/backdrop/howtoplaymenu.png");
-                        TextureButton back(10,10,25,25,"res/ui/backbutton_def.png","res/ui/backbutton_prs.png");
-                        mainMenuCanvas.push_back(&howBackdrop);
-                        mainMenuCanvas.push_back(&back);
-                        mainMenuClickables.push_back(&back);
+                        howBackground.show();
+                        back.show();
                     } else if (release && b == &stats) {
-                        Sprite statsBackdrop(0,0,320,240,"res/backdrop/statsmenu.png");
-                        TextureButton back(10,10,25,25,"res/ui/backbutton_def.png","res/ui/backbutton_prs.png");
-                        mainMenuCanvas.push_back(&statsBackdrop);
-                        mainMenuCanvas.push_back(&back);
-                        mainMenuClickables.push_back(&back);
+                        statsBackground.show();
+                        back.show();
                     } else if (release && b == &credits) {
-                        Sprite creditsBackdrop(0,0,320,240,"res/backdrop/creditsmenu.png");
-                        TextureButton back(10,10,25,25,"res/ui/backbutton_def.png","res/ui/backbutton_prs.png");
-                        mainMenuCanvas.push_back(&creditsBackdrop);
-                        mainMenuCanvas.push_back(&back);
-                        mainMenuClickables.push_back(&back);
+                        creditsBackground.show();
+                        back.show();
                     } else if (release) { // Back button
-                        // free the popup
-                        delete mainMenuCanvas.back();
-                        mainMenuCanvas.pop_back();
-                        delete mainMenuCanvas.back();
-                        mainMenuCanvas.pop_back();
-
-                        delete mainMenuClickables.back();
-                        mainMenuClickables.pop_back();
+                        howBackground.hide();
+                        statsBackground.hide();
+                        creditsBackground.hide();
+                        back.hide();
                     }
                 }
             } else {

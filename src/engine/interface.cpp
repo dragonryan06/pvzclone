@@ -21,10 +21,14 @@ void CanvasItem::setPosition(Vector2 pos) { position = Vector2(pos); }
 void CanvasItem::setPosition(float x, float y) { position = Vector2{x, y}; }
 void CanvasItem::setSize(Vector2 siz) { size = Vector2(siz); }
 void CanvasItem::setSize(float w, float h) { size = Vector2{w, h}; }
+void CanvasItem::show() { visible = true; }
+void CanvasItem::hide() { visible = false; }
 
 void CanvasItem::draw() {
-    LCD.SetFontColor(RED);
-    LCD.DrawRectangle(position.x,position.y,size.x,size.y);
+    if (visible) {
+        LCD.SetFontColor(RED);
+        LCD.DrawRectangle(position.x,position.y,size.x,size.y);
+    }
 }
 
 // constructors
@@ -36,12 +40,14 @@ Button::Button(float posx, float posy, float sizx, float sizy) : CanvasItem(posx
 }
 
 void Button::draw() {
-    if (state) {
-        LCD.SetFontColor(WHITE);
-    } else {
-        LCD.SetFontColor(GRAY);
+    if (visible) {
+        if (state) {
+            LCD.SetFontColor(WHITE);
+        } else {
+            LCD.SetFontColor(GRAY);
+        }
+        LCD.FillRectangle(position.x,position.y,size.x,size.y);
     }
-    LCD.FillRectangle(position.x,position.y,size.x,size.y);
 }
 
 // returns true if event was the end of a press.
@@ -49,7 +55,7 @@ bool Button::poll(ClickEvent* eventPtr) {
     ClickEvent event = *eventPtr;
     bool isRelease = false;
 
-    if (event.start.x > position.x && event.start.x < position.x+size.x && event.start.y > position.y && event.start.y < position.y+size.y) {
+    if (visible && event.start.x > position.x && event.start.x < position.x+size.x && event.start.y > position.y && event.start.y < position.y+size.y) {
         isRelease = state && !event.mouse_down;
         state = event.mouse_down;
     }
@@ -75,10 +81,12 @@ TextureButton::TextureButton(float posx, float posy, float sizx, float sizy, cha
 }
 
 void TextureButton::draw() {
-    if (state) {
-        pressedTexture.Draw(position.x, position.y);
-    } else {
-        defaultTexture.Draw(position.x, position.y);
+    if (visible) {
+        if (state) {
+            pressedTexture.Draw(position.x, position.y);
+        } else {
+            defaultTexture.Draw(position.x, position.y);
+        }
     }
 }
 
@@ -93,7 +101,9 @@ Sprite::Sprite(float posx, float posy, float sizx, float sizy, char tex[]) : Can
 }
 
 void Sprite::draw() {
-    texture.Draw(position.x, position.y);
+    if (visible) {
+        texture.Draw(position.x, position.y);
+    }
 }
 
 void Sprite::setTexture(FEHImage tex) {
