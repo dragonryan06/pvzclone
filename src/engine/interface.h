@@ -9,6 +9,7 @@ class CanvasItem {
     protected:
         Vector2 position {-1, -1};
         Vector2 size {-1, -1};
+        bool visible {true};
     
     public:
         CanvasItem(Vector2, Vector2);
@@ -19,6 +20,8 @@ class CanvasItem {
         void setPosition(float, float);
         void setSize(Vector2);
         void setSize(float, float);
+        void show();
+        void hide();
         virtual void draw();
 };
 
@@ -30,7 +33,8 @@ class Button : public CanvasItem {
     public:
         Button(Vector2, Vector2);
         Button(float, float, float, float);
-        void poll(ClickEvent*);
+        bool poll(ClickEvent*);
+        bool isPressed();
         void draw();
 };
 
