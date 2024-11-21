@@ -1,13 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "game/entity.h"
+#include "entity.h"
 #include <vector>
+#include <memory>
 
 // Game state singleton
 class Game {
     private:
-        std::vector<std::unique_ptr<Entity>> entities;
+        std::vector<std::shared_ptr<Entity>> entities;
 
         Game();
 
@@ -16,6 +17,8 @@ class Game {
             static Game INSTANCE;
             return INSTANCE;
         }
+        // Initialize game state
+        void init();
         // Return true if player lost this tick.
         bool updateGame();
 };

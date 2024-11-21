@@ -4,6 +4,7 @@
 #include "global.h"
 #include "engine/input.h"
 #include "engine/interface.h"
+#include "game/game.h"
 
 int main() {
     bool running = true;
@@ -71,6 +72,7 @@ int main() {
                 for (Button* b : mainMenuClickables) {
                     bool release = (*b).poll(event);
                     if (release && b == &play) {
+                        Game::instance().init();
                         mainMenu = false;
                     } else if (release && b == &how) {
                         howBackground.show();
@@ -99,9 +101,8 @@ int main() {
             }
         } else {
             // draw game
-            for (CanvasItem* c : gameCanvas) {
-                (*c).draw();
-            }
+            gameBackground.draw();
+            Game::instance().updateGame();
         }
 
         LCD.Update();

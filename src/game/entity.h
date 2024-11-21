@@ -1,8 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "engine/interface.h"
-#include "global.h"
+#include "../engine/interface.h"
+#include "../global.h"
 
 class Entity {
     protected:
