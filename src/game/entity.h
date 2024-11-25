@@ -8,7 +8,7 @@ class Entity {
     protected:
         Vector2 position {-1, -1};
         Vector2 velocity {0, 0};
-        Sprite sprite {-1,-1,-1,-1,""};
+        Sprite sprite {-1,-1,-1,-1,"res/placeholdertex.png"};
     public:
         Entity(Vector2, Vector2, char[]);
         Entity(float, float, float, float, char[]);
