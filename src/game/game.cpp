@@ -16,9 +16,14 @@ int Game::randiRange(int min, int max) {
     return rand() % (max + 1 - min) + min;
 }
 
+float Game::randfRange(float min, float max) {
+    float val = (float)(rand()) / (float)(RAND_MAX);
+    return (min+(max-min)*val);
+}
+
 // One tick of the game; return true if the player lost this tick.
 bool Game::updateGame() {
-    if (tick%25 == 0) { // every 500 ticks, spawn a new sun from the sky.
+    if (tick%250 == 0) { // every 250 ticks, spawn a new sun from the sky.
         spawnSunParticle();
     }
 
@@ -29,6 +34,8 @@ bool Game::updateGame() {
 }
 
 void Game::spawnSunParticle() {
-    std::shared_ptr<Entity> s(new SunParticle(randiRange(20, 300),0,0,4));
+    std::shared_ptr<Entity> s(
+        new SunParticle(randiRange(20, 300),0,randfRange(-4,4),randfRange(3,7))
+    );
     entities.push_back(s);
 }

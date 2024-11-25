@@ -13,6 +13,7 @@ class Game {
 
         Game();
         int randiRange(int,int);
+        float randfRange(float,float);
         void spawnSunParticle();
 
     public:

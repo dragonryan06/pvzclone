@@ -26,7 +26,7 @@ class Zombie : public Entity {
 
 class SunParticle : public Entity {
     private:
-        const float DRAG_FACTOR = 0.5;
+        const float DRAG_FACTOR = 0.15;
     public:
         SunParticle(Vector2,Vector2);
         SunParticle(float,float,float,float);

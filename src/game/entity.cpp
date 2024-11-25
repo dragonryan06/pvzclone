@@ -51,10 +51,12 @@ void SunParticle::update() {
     sprite.setPosition(Vector2{oldPos.x+velocity.x, oldPos.y+velocity.y});
 
     // Apply drag
-    if (velocity.x > 0.0) velocity.x -= DRAG_FACTOR;
-    else if (velocity.x < 0.0) velocity.x += DRAG_FACTOR;
-    else if (velocity.y > 0.0) velocity.y -= DRAG_FACTOR;
-    else if (velocity.y < 0.0) velocity.y += DRAG_FACTOR; 
+    if (velocity.x > DRAG_FACTOR) velocity.x -= DRAG_FACTOR;
+    else if (velocity.x < -DRAG_FACTOR) velocity.x += DRAG_FACTOR;
+    else velocity.x = 0;
+    if (velocity.y > DRAG_FACTOR) velocity.y -= DRAG_FACTOR;
+    else if (velocity.y < -DRAG_FACTOR) velocity.y += DRAG_FACTOR; 
+    else velocity.y = 0;
 
     sprite.draw();
 }
