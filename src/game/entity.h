@@ -24,6 +24,16 @@ class Zombie : public Entity {
         void update();
 };
 
+class SunParticle : public Entity {
+    private:
+        const float DRAG_FACTOR = 0.5;
+    public:
+        SunParticle(Vector2,Vector2);
+        SunParticle(float,float,float,float);
+        bool poll(ClickEvent*);
+        void update();
+};
+
 class PeaProjectile : public Entity {
     public:
         PeaProjectile(Vector2);

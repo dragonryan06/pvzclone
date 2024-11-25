@@ -8,9 +8,12 @@
 // Game state singleton
 class Game {
     private:
+        long long tick {0};
         std::vector<std::shared_ptr<Entity>> entities;
 
         Game();
+        int randiRange(int,int);
+        void spawnSunParticle();
 
     public:
         static Game& instance() {
