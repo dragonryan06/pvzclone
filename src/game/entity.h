@@ -1,6 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <memory>
 #include "../engine/interface.h"
 #include "../global.h"
 
@@ -12,6 +13,7 @@ class Entity {
     public:
         Entity(Vector2, Vector2, char[]);
         Entity(float, float, float, float, char[]);
+        Vector2 getPosition();
         virtual void update();
 };
 
@@ -27,10 +29,12 @@ class Zombie : public Entity {
 class SunParticle : public Entity {
     private:
         const float DRAG_FACTOR = 0.15;
+        bool clickable {true};
     public:
         SunParticle(Vector2,Vector2);
         SunParticle(float,float,float,float);
-        bool poll(ClickEvent*);
+        bool poll(std::shared_ptr<ClickEvent>);
+        void flyOut();
         void update();
 };
 

@@ -24,7 +24,7 @@ class Game {
         // Initialize game state
         void init();
         // Return true if player lost this tick.
-        bool updateGame();
+        bool updateGame(std::shared_ptr<ClickEvent>);
 };
 
 #endif
