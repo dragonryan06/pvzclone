@@ -1,6 +1,7 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
+#include <memory>
 #include "input.h"
 #include "../global.h"
 #include "FEHImages.h"
@@ -33,7 +34,7 @@ class Button : public CanvasItem {
     public:
         Button(Vector2, Vector2);
         Button(float, float, float, float);
-        bool poll(ClickEvent*);
+        bool poll(std::shared_ptr<ClickEvent>);
         bool isPressed();
         void draw();
 };

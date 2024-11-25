@@ -1,4 +1,5 @@
 #include <vector>
+#include <memory>
 #include "FEHLCD.h"
 #include "FEHUtility.h"
 #include "global.h"
@@ -64,13 +65,13 @@ int main() {
     while (running) {
         LCD.Clear(BLACK);
 
-        ClickEvent* event = Input::instance().update();
-        if (event != NULL) {
+        ClickEvent event = Input::instance().update();
+        if (!event.empty) {
             if (mainMenu) {
                 // Poll buttons and clickables
                 // (This is a kind of messy way of doing these pop-ups, I don't want to over-engineer it.)
                 for (Button* b : mainMenuClickables) {
-                    bool release = (*b).poll(event);
+                    bool release = (*b).poll(std::shared_ptr<ClickEvent>(&event));
                     if (release && b == &play) {
                         Game::instance().init();
                         mainMenu = false;

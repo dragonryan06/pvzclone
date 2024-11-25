@@ -5,14 +5,13 @@
 // Input is a singleton; no construction allowed.
 Input::Input() { } 
 
-// Update touch states, send a ref to a ClickEvent containing drag information
-ClickEvent* Input::update() {
-    ClickEvent* event = NULL;
+// Update touch states, send a ClickEvent object containing drag information
+ClickEvent Input::update() {
     Vector2 newPos;
+    ClickEvent e;
     bool newState = LCD.Touch(&position.x, &position.y, false);
     if (pressed && !newState) {
         // This is a mouse up.
-        ClickEvent e;
         e.start = Vector2(startPosition);
         e.end = Vector2(position);
 
@@ -22,21 +21,20 @@ ClickEvent* Input::update() {
 
         e.relative = relative;
         e.mouse_down = false;
-        event = &e;
+        e.empty = false;
     } else if (!pressed && newState) {
         // This is a mouse down.
         startPosition = Vector2(position);
-        ClickEvent e;
         e.start = Vector2(position);
         e.end = Vector2{-1, -1};
         e.relative = Vector2{-1, -1};
         e.mouse_down = true;
-        event = &e;
+        e.empty = false;
     }
     
     position = Vector2(newPos);
     pressed = newState;
-    return event;
+    return e;
 }
 bool Input::isPressed() { return pressed; }
 Vector2 Input::getPosition() { return Vector2(position); }

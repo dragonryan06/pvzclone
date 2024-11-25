@@ -1,3 +1,4 @@
+#include <memory>
 #include "FEHLCD.h"
 #include "FEHImages.h"
 #include "input.h"
@@ -51,13 +52,12 @@ void Button::draw() {
 }
 
 // returns true if event was the end of a press.
-bool Button::poll(ClickEvent* eventPtr) {
-    ClickEvent event = *eventPtr;
+bool Button::poll(std::shared_ptr<ClickEvent> eventPtr) {
     bool isRelease = false;
 
-    if (visible && event.start.x > position.x && event.start.x < position.x+size.x && event.start.y > position.y && event.start.y < position.y+size.y) {
-        isRelease = state && !event.mouse_down;
-        state = event.mouse_down;
+    if (visible && eventPtr->start.x > position.x && eventPtr->start.x < position.x+size.x && eventPtr->start.y > position.y && eventPtr->start.y < position.y+size.y) {
+        isRelease = state && !eventPtr->mouse_down;
+        state = eventPtr->mouse_down;
     }
     return isRelease;
 }
