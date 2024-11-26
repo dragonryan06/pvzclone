@@ -22,6 +22,7 @@ void CanvasItem::setPosition(Vector2 pos) { position = Vector2(pos); }
 void CanvasItem::setPosition(float x, float y) { position = Vector2{x, y}; }
 void CanvasItem::setSize(Vector2 siz) { size = Vector2(siz); }
 void CanvasItem::setSize(float w, float h) { size = Vector2{w, h}; }
+bool CanvasItem::isVisible() { return visible; }
 void CanvasItem::show() { visible = true; }
 void CanvasItem::hide() { visible = false; }
 

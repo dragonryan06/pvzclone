@@ -1,4 +1,5 @@
 #include "game.h"
+#include "../global.h"
 #include <memory>
 #include <time.h>
 #include <string>
@@ -39,10 +40,18 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
             if (!event->empty && sun->poll(event)) {
                 sun->flyOut();
                 sunAmount += 50;
+                totalSun += 50;
             }
             // This sun has flown out; we can kill it.
             if (sun->getPosition().x < 0 && sun->getPosition().y < 0) {
                 entities.erase(entities.begin() + idx);
+            }
+        } else if (dynamic_cast<Zombie*>(entity.get())) {// Test if the entity is a zombie
+            std::shared_ptr<Zombie> zombie = std::dynamic_pointer_cast<Zombie>(entity);
+            if (zombie->getPosition().x < -30) {
+                // GAME OVER!
+                timeSurvived = time(0)-startTime;
+                return true;
             }
         }
         idx++;
@@ -59,16 +68,7 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
     LCD.SetFontColor(RED);
     LCD.WriteAt(stringifyTime(currentTime),130,4);
     tick++;
-}
-
-std::string Game::stringifyTime(int time) {
-    int minutes = time / 60;
-    int seconds = time % 60;
-    if (seconds < 10) {
-        return std::to_string(minutes)+":0"+std::to_string(seconds);
-    } else {
-        return std::to_string(minutes)+":"+std::to_string(seconds);
-    }
+    return false;
 }
 
 void Game::spawnSunParticle() {
@@ -76,4 +76,15 @@ void Game::spawnSunParticle() {
         new SunParticle(randiRange(20, 300),0,randfRange(-4,4),randfRange(3,7))
     );
     entities.push_back(s);
+}
+
+void Game::cleanUp() {
+    tick = 0;
+    startTime = 0;
+    sunAmount = 0;
+    entities.clear();
+    timeSurvived = 0;
+    totalSun = 0;
+    totalKills = 0;
+    plantsPlaced = 0;
 }
