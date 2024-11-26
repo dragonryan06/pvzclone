@@ -9,6 +9,7 @@
 class Game {
     private:
         long long tick {0};
+        int sunAmount {0};
         std::vector<std::shared_ptr<Entity>> entities;
 
         Game();

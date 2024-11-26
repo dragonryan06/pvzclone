@@ -35,6 +35,7 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
             std::shared_ptr<SunParticle> sun = std::dynamic_pointer_cast<SunParticle>(entity);
             if (!event->empty && sun->poll(event)) {
                 sun->flyOut();
+                sunAmount += 50;
             }
             // This sun has flown out; we can kill it.
             if (sun->getPosition().x < 0 && sun->getPosition().y < 0) {
@@ -43,6 +44,8 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
         }
         idx++;
     }
+    LCD.SetFontColor(BLACK);
+    LCD.WriteLine(sunAmount);
     tick++;
 }
 
