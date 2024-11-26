@@ -1,6 +1,7 @@
 #include "game.h"
 #include <memory>
 #include <time.h>
+#include <string>
 
 // Game is a singleton; no construction allowed.
 Game::Game() { }
@@ -10,6 +11,8 @@ void Game::init() {
     entities.push_back(testZomb);
     // Seed the generator to seconds since 1970
     srand(time(0));
+    // Record start time
+    startTime = time(0);
 }
 
 int Game::randiRange(int min, int max) {
@@ -44,9 +47,28 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
         }
         idx++;
     }
+
+    // Writing twice to do a word shadow thing; first in black then in font color
+    int currentTime = time(0)-startTime;
     LCD.SetFontColor(BLACK);
-    LCD.WriteLine(sunAmount);
+    LCD.WriteAt(sunAmount,5,5);
+    LCD.WriteAt(stringifyTime(currentTime),131,5);
+
+    LCD.SetFontColor(YELLOW);
+    LCD.WriteAt(sunAmount,4,4);
+    LCD.SetFontColor(RED);
+    LCD.WriteAt(stringifyTime(currentTime),130,4);
     tick++;
+}
+
+std::string Game::stringifyTime(int time) {
+    int minutes = time / 60;
+    int seconds = time % 60;
+    if (seconds < 10) {
+        return std::to_string(minutes)+":0"+std::to_string(seconds);
+    } else {
+        return std::to_string(minutes)+":"+std::to_string(seconds);
+    }
 }
 
 void Game::spawnSunParticle() {
