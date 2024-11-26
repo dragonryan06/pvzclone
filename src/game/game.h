@@ -4,11 +4,14 @@
 #include "entity.h"
 #include <vector>
 #include <memory>
+#include <string>
 
 // Game state singleton
 class Game {
     private:
+        // Game params
         long long tick {0};
+        int startTime {0};
         int sunAmount {0};
         std::vector<std::shared_ptr<Entity>> entities;
 
@@ -18,6 +21,12 @@ class Game {
         void spawnSunParticle();
 
     public:
+        // Tracked stats
+        int timeSurvived {0};
+        int totalSun {0};
+        int totalKills {0};
+        int plantsPlaced {0};
+
         static Game& instance() {
             static Game INSTANCE;
             return INSTANCE;
@@ -26,6 +35,8 @@ class Game {
         void init();
         // Return true if player lost this tick.
         bool updateGame(std::shared_ptr<ClickEvent>);
+        // Clean up so the game is in a pre-init state.
+        void cleanUp();
 };
 
 #endif

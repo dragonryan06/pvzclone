@@ -11,6 +11,13 @@ int main() {
     bool running = true;
 
     bool mainMenu = true;
+
+    // SESSION STATS
+    int longestTime = 0;
+    int mostSun = 0;
+    int mostKills = 0;
+    int mostPlanted = 0;
+
     
     // MAIN MENU
     Sprite background(0,0,320,240,"res/backdrop/mainmenu.png");
@@ -100,10 +107,32 @@ int main() {
             for (CanvasItem* c : mainMenuCanvas) {
                 (*c).draw();
             }
+            if (statsBackground.isVisible()) {
+                // Writing twice for word shadow
+                LCD.SetFontColor(BLACK);
+                LCD.WriteAt(stringifyTime(longestTime),131,70);
+                LCD.WriteAt(mostSun,141,120);
+                LCD.WriteAt(mostKills,141,165);
+                LCD.WriteAt(mostPlanted,141,210);
+
+                LCD.SetFontColor(WHITE);
+                LCD.WriteAt(stringifyTime(longestTime),130,69);
+                LCD.WriteAt(mostSun,140,119);
+                LCD.WriteAt(mostKills,140,164);
+                LCD.WriteAt(mostPlanted,140,209);
+            }
         } else {
             // draw game
             gameBackground.draw();
-            Game::instance().updateGame(std::shared_ptr<ClickEvent>(&event));
+            if (Game::instance().updateGame(std::shared_ptr<ClickEvent>(&event))) {
+                // Draw game over screen and wait for touch to continue
+                if (Game::instance().timeSurvived > longestTime) longestTime = Game::instance().timeSurvived;
+                if (Game::instance().totalSun > mostSun) mostSun = Game::instance().totalSun;
+                if (Game::instance().totalKills > mostKills) mostKills = Game::instance().totalKills;
+                if (Game::instance().plantsPlaced > mostPlanted) mostPlanted = Game::instance().plantsPlaced;
+                Game::instance().cleanUp();
+                mainMenu = true;
+            }
         }
 
         LCD.Update();

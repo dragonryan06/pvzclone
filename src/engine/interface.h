@@ -21,6 +21,7 @@ class CanvasItem {
         void setPosition(float, float);
         void setSize(Vector2);
         void setSize(float, float);
+        bool isVisible();
         void show();
         void hide();
         virtual void draw();
