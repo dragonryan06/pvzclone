@@ -103,7 +103,7 @@ int main() {
         } else {
             // draw game
             gameBackground.draw();
-            Game::instance().updateGame();
+            Game::instance().updateGame(std::shared_ptr<ClickEvent>(&event));
         }
 
         LCD.Update();
