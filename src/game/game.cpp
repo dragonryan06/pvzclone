@@ -31,6 +31,9 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
         spawnSunParticle();
     }
 
+    // List of indicies of entities that are being removed this tick.
+    std::vector<int> removing;
+
     int idx = 0;
     for (auto&& entity : entities) {
         entity->update();
@@ -42,9 +45,9 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
                 sunAmount += 50;
                 totalSun += 50;
             }
-            // This sun has flown out; we can kill it.
+            // This sun has flown out; we can mark it for deletion.
             if (sun->getPosition().x < 0 && sun->getPosition().y < 0) {
-                entities.erase(entities.begin() + idx);
+                removing.push_back(idx);
             }
         } else if (dynamic_cast<Zombie*>(entity.get())) {// Test if the entity is a zombie
             std::shared_ptr<Zombie> zombie = std::dynamic_pointer_cast<Zombie>(entity);
@@ -55,6 +58,11 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
             }
         }
         idx++;
+    }
+
+    // Remove entities
+    for (int i : removing) {
+        entities.erase(entities.begin() + i);
     }
 
     // Writing twice to do a word shadow thing; first in black then in font color
