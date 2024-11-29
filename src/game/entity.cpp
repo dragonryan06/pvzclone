@@ -25,10 +25,10 @@ void Entity::update() {
 }
 
 Zombie::Zombie(Vector2 pos) : Entity(pos, Vector2{35,60}, "res/entity/zombieadam.png") {
-    velocity = Vector2{-1, 0};
+    velocity = Vector2{-0.25, 0};
 }
 Zombie::Zombie(float x, float y) : Entity(x, y, 35, 60, "res/entity/zombieadam.png") {
-    velocity = Vector2{-1, 0};
+    velocity = Vector2{-0.25, 0};
 }
 
 void Zombie::update() {
