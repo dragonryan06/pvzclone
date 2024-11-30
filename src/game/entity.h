@@ -48,10 +48,14 @@ class PeaProjectile : public Entity {
 class Plant : public Entity {
     protected:
         int cooldown;
+
     public:
         Plant(Vector2);
         Plant(float, float);
+        int health=4;
+        const char *type;
         void update();
 };
+
 
 #endif

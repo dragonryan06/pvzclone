@@ -4,6 +4,7 @@
 #include "engine/input.h"
 #include "engine/interface.h"
 #include "game/game.h"
+#include "game/plantplacement.h"
 
 #include <vector>
 #include <memory>

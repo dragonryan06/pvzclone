@@ -8,6 +8,7 @@
 Game::Game() { }
 
 void Game::init() {
+    sunAmount=50; //Start with 50 sun
     std::shared_ptr<Entity> testZomb (new Zombie(320,120));
     entities.push_back(testZomb);
     // Seed the generator to seconds since 1970
@@ -42,8 +43,8 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
             std::shared_ptr<SunParticle> sun = std::dynamic_pointer_cast<SunParticle>(entity);
             if (!event->empty && sun->poll(event)) {
                 sun->flyOut();
-                sunAmount += 50;
-                totalSun += 50;
+                sunAmount += 25;
+                totalSun += 25;
             }
             // This sun has flown out; we can mark it for deletion.
             if (sun->getPosition().x < 0 && sun->getPosition().y < 0) {
