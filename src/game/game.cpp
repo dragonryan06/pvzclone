@@ -28,7 +28,7 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
     if (tick%250 == 0) { // every 250 ticks, spawn a new sun from the sky.
         spawnSunParticle();
     }
-    if (tick%100 == 0) { // every 100 ticks, spawn a new zombie.
+    if (tick%(300-tick/300) == 0) { // every 300 ticks, increasing as ticks increases.
         spawnZombie();
     }
 
