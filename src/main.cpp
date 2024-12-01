@@ -9,6 +9,14 @@
 #include <memory>
 #include <iostream>
 
+/**
+ * Program main method.
+ * 
+ * Handles game loop, menu logic, input routing, and basically everything else.
+ * Main purpose is to act as a bridge between the engine and the game.
+ * 
+ * @author Ryan and Daniel
+ */
 int main() {
     bool running = true;
 
