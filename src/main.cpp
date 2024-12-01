@@ -124,6 +124,14 @@ int main() {
             gameBackground.draw();
             if (Game::instance().updateGame(std::shared_ptr<ClickEvent>(&event))) {
                 // Draw game over screen and wait for touch to continue
+
+                FEHImage gameOverScreen("res/backdrop/gameover.png");
+                int _x, _y;
+                while (!LCD.Touch(&_x,&_y)) {
+                    gameOverScreen.Draw(0,0);
+                }
+
+                // Update stats
                 if (Game::instance().timeSurvived > longestTime) longestTime = Game::instance().timeSurvived;
                 if (Game::instance().totalSun > mostSun) mostSun = Game::instance().totalSun;
                 if (Game::instance().totalKills > mostKills) mostKills = Game::instance().totalKills;

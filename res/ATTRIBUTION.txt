@@ -1,0 +1,45 @@
+backdrop/creditsmenu.png
+    Drawn by Daniel Tran
+backdrop/gamedrop.png
+    Drawn by Daniel Tran
+    Parody art of Plants Vs. Zombies
+backdrop/gameover.png
+    Drawn by Ryan Fowler
+    Image of Adam taken from https://adamexley.com/
+    Image of Kermit taken from https://disney.fandom.com/wiki/Kermit_the_Frog
+backdrop/howtoplaymenu.png
+    Drawn by Daniel Tran
+backdrop/mainmenu.png
+    Drawn by Daniel Tran
+    Parody art of Plants Vs. Zombies
+backdrop/statsmenu.png
+    Drawn by Daniel Tran and Ryan Fowler
+entity/peaprojectile.png
+    Drawn by Daniel Tran
+    Parody art of Plants Vs. Zombies
+entity/peashooter.png
+    Drawn by Daniel Tran
+    Parody art of Plants Vs. Zombies
+entity/sunflower.png
+    Drawn by Daniel Tran
+    Parody art of Plants Vs. Zombies
+entity/sunlight.png
+    Drawn by Daniel Tran
+    Parody art of Plants Vs. Zombies
+entity/zombieadam.png
+    Drawn by Daniel Tran
+    This is a work of fiction. Any resemblance to persons, living or dead, is entirely coincidental.
+ui/backbutton_*.png
+    Drawn by Ryan Fowler
+ui/creditbutton_*.png
+    Drawn by Daniel Tran
+    Parody art of Plants Vs. Zombies
+ui/howbutton_*.png
+    Drawn by Daniel Tran
+    Parody art of Plants Vs. Zombies
+ui/playbutton_*.png
+    Drawn by Daniel Tran
+    Parody art of Plants Vs. Zombies
+ui/statbutton_*.png
+    Drawn by Daniel Tran
+    Parody art of Plants Vs. Zombies
