@@ -50,9 +50,21 @@ int main() {
 
     // GAME
     Sprite gameBackground(0,0,320,240,"res/backdrop/gamedrop.png");
+    PlantPlacement plantPlacement;
 
+    // Instantiate the game canvas
     std::vector<CanvasItem*> gameCanvas = {
+        std::shared_ptr<CanvasItem>(new TextureButton(151,28,123,0, "res/ui/shovelbutton_def.png", "res/ui/shovelbutton_prs.png")),
+        std::shared_ptr<CanvasItem>(new TextureButton(180,32,157,4, "res/ui/peashooterbutton_def.png", "res/ui/peashooterbutton_prs.png")),
+        std::shared_ptr<CanvasItem>(new TextureButton(207,32,184,4, "res/ui/sunflowerbutton_def.png", "res/ui/sunflowerbutton_prs.png")),
         &gameBackground
+    };
+
+    // Register buttons
+    std::vector<std::shared_ptr<Button>> gameClickables = {
+        std::shared_ptr<Button>(static_cast<Button*>(gameCanvas.at(0).get())),
+        std::shared_ptr<Button>(static_cast<Button*>(gameCanvas.at(1).get())),
+        std::shared_ptr<Button>(static_cast<Button*>(gameCanvas.at(2).get()))
     };
 
     // MAIN LOOP
@@ -123,6 +135,9 @@ int main() {
         } else {
             // draw game
             gameBackground.draw();
+            gameCanvas.at(0)->show();
+            gameCanvas.at(1)->show();
+            gameCanvas.at(2)->show();
             if (Game::instance().updateGame(std::shared_ptr<ClickEvent>(&event))) {
                 // Draw game over screen and wait for touch to continue
                 if (Game::instance().timeSurvived > longestTime) longestTime = Game::instance().timeSurvived;

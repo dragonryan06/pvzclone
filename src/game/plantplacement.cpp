@@ -1,4 +1,4 @@
-#include "PlantPlacement.h"
+#include "plantplacement.h"
 
 // Constructor to initialize the grid
 PlantPlacement::PlantPlacement() {
@@ -28,7 +28,7 @@ void PlantPlacement::placePlant(Plant &plant, int row, int col) {
         return;
     }
 
-    // Update the grid to mark this cell as occupied
+    // Mark this cell as occupied
     grid[row][col] = true;
 
     // Set the plant's position based on the row and column
@@ -36,3 +36,4 @@ void PlantPlacement::placePlant(Plant &plant, int row, int col) {
     plant.y = placementStartY + row * cellHeight;
 
     // Now add plant
+}
