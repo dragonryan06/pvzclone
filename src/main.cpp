@@ -129,9 +129,11 @@ int main() {
                     if (release) {
                         switch (idx) {
                             case 0: // Peashooter
+                                event.empty = true; // Hacky way to capture input with UI
                                 Game::instance().selectPlant(0);
                                 break;
                             case 1: // Sunflower
+                                event.empty = true;
                                 Game::instance().selectPlant(1);
                                 break;
                             default:

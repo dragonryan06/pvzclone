@@ -73,6 +73,13 @@ class Zombie : public Entity {
          */
         Zombie(float x, float y);
         /**
+         * Lowers this zombie's hitpoints by 1, returns true if killed.
+         *      @returns True if the zombie was killed by this hit.
+         * @author Ryan
+         */
+        bool hurt();
+
+        /**
          * Local implementation of virtual void Entity::update()
          * @author Ryan
          */
@@ -125,13 +132,6 @@ class SunParticle : public Entity {
         void update();
 };
 
-class PeaProjectile : public Entity {
-    public:
-        PeaProjectile(Vector2);
-        PeaProjectile(float, float);
-        void update();
-};
-
 class Plant : public Entity {
     protected:
         int cooldown {0};
@@ -141,7 +141,7 @@ class Plant : public Entity {
 
 class Sunflower : public Plant {
     private:
-        const int cooldownMax = 100;
+        const int cooldownMax = 250;
     public:
         Sunflower(int grid_x, int grid_y);
         void update();
@@ -155,5 +155,10 @@ class Peashooter : public Plant {
         void update();
 };
 
+class PeaProjectile : public Entity {
+    public:
+        PeaProjectile(Vector2 pos);
+        void update();
+};
 
 #endif

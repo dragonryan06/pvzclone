@@ -32,6 +32,11 @@ Zombie::Zombie(float x, float y) : Entity(x, y, 35, 60, "res/entity/zombieadam.p
     velocity = Vector2{-0.25, 0};
 }
 
+bool Zombie::hurt() {
+    health--;
+    return health == 0;
+}
+
 void Zombie::update() {
     position.x += velocity.x;
     position.y += velocity.y;
@@ -99,5 +104,32 @@ void Sunflower::update() {
         // Plus, this limits the sun per tick.
         Game::instance().requestSpawnSun();
     }
+    sprite.draw();
+}
+
+Peashooter::Peashooter(int grid_x, int grid_y) : Plant(grid_x,grid_y,"res/entity/peashooter.png") {
+
+}
+
+void Peashooter::update() {
+    cooldown++;
+    if (cooldown > cooldownMax) {
+        cooldown = 0;
+        Game::instance().shootPea(Vector2{position.x+30,position.y+5});
+    }
+    sprite.draw();
+}
+
+PeaProjectile::PeaProjectile(Vector2 pos) : Entity(Vector2(pos),Vector2{6,6},"res/entity/peaprojectile.png") {
+    velocity.x = 5;
+}
+
+void PeaProjectile::update() {
+    // Standard entity motion
+    position.x += velocity.x;
+    position.y += velocity.y;
+    Vector2 oldPos = sprite.getPosition();
+    sprite.setPosition(Vector2{oldPos.x+velocity.x, oldPos.y+velocity.y});
+
     sprite.draw();
 }

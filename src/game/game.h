@@ -25,11 +25,15 @@ class Game {
         int sunAmount {0};
         /// @brief The game objects' update & draw buffer.
         std::vector<std::shared_ptr<Entity>> entities;
+        /// @brief Additional references to zombie-colliding projectiles.
+        std::vector<std::shared_ptr<PeaProjectile>> projectiles;
 
         /// @brief -1 = none, 0 = peashooter, 1 = sunflower
         int selectedPlant = -1;
         /// @brief Whether or not a sunflower is spawning a sun this frame.
         bool requestedSun = false;
+        /// @brief A possible location a peashooter is firing this frame. -1,-1 if none.
+        Vector2 requestedPea {-1,-1};
         /// @brief Privated constructor to prevent double-instantiation.
         Game();
         /**
@@ -152,6 +156,13 @@ class Game {
          * @author Ryan
          */
         void requestSpawnSun();
+
+        /**
+         * Peashooter callback to spawn a pea at a location.
+         *      @param pos The position to spawn the pea at.
+         * @author Ryan
+         */
+        void shootPea(Vector2 pos);
 };
 
 #endif
