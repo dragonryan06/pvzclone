@@ -9,8 +9,6 @@ Game::Game() { }
 
 void Game::init() {
     sunAmount=50; //Start with 50 sun
-    std::shared_ptr<Entity> testZomb (new Zombie(320,120));
-    entities.push_back(testZomb);
     // Seed the generator to seconds since 1970
     srand(time(0));
     // Record start time
@@ -31,6 +29,9 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
     if (tick%250 == 0 || requestedSun) { // every 250 ticks, spawn a new sun from the sky.
         spawnSunParticle();
         requestedSun = false;
+    }
+    if (tick%(300-tick/300) == 0) { // every 300 ticks, increasing as ticks increases.
+        spawnZombie();
     }
 
     // List of indicies of entities that are being removed this tick.
@@ -101,6 +102,13 @@ void Game::spawnSunParticle() {
         new SunParticle(randiRange(20, 300),0,randfRange(-4,4),randfRange(3,7))
     );
     entities.push_back(s);
+}
+
+void Game::spawnZombie() {
+    std::shared_ptr<Entity> z(
+        new Zombie(320,lanes[randiRange(0, 4)]-30)
+    );
+    entities.push_back(z);
 }
 
 void Game::cleanUp() {

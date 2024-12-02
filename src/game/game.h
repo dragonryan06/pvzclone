@@ -9,6 +9,9 @@
 // Game state singleton
 class Game {
     private:
+        // Game constants
+        const int lanes[5] {54,93,133,173,213};
+
         // Game params
         long long tick {0};
         int startTime {0};
@@ -23,6 +26,8 @@ class Game {
         Game();
         int randiRange(int,int);
         float randfRange(float,float);
+
+        void spawnZombie();
 
     public:
         /// @brief The top left corner of the grid.
