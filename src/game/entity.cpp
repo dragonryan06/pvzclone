@@ -101,3 +101,16 @@ void Sunflower::update() {
     }
     sprite.draw();
 }
+
+Peashooter::Peashooter(int grid_x, int grid_y) : Plant(grid_x,grid_y,"res/entity/peashooter.png") {
+
+}
+
+void Peashooter::update() {
+    cooldown++;
+    if (cooldown > cooldownMax) {
+        cooldown = 0;
+        
+    }
+    sprite.draw();
+}

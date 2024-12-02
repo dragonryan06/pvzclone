@@ -42,14 +42,20 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
         if ((int)gridPos.x >= 0 && (int)gridPos.y >= 0 && (int)gridPos.x < 9 && (int)gridPos.y < 5 && !isCellOccupied(gridPos)) {
             if (selectedPlant == 0 && sunAmount >= 100) { // Peashooter
                 setCellState(gridPos,true);
-                std::cout << "Peashooter placed\n";
+                std::shared_ptr<Entity> newPeashooter (new Peashooter(gridPos.x,gridPos.y));
+                entities.push_back(newPeashooter);
+                sunAmount -= 100;
                 plantsPlaced++;
+                // Deselect
+                selectedPlant = -1;
             } else if (selectedPlant == 1 && sunAmount >= 50) { // Sunflower
                 setCellState(gridPos,true);
                 std::shared_ptr<Entity> newSunflower (new Sunflower(gridPos.x,gridPos.y));
                 entities.push_back(newSunflower);
-                sunAmount-=50;
+                sunAmount -= 50;
                 plantsPlaced++;
+                // Deselect
+                selectedPlant = -1;
             }
         }
     }
