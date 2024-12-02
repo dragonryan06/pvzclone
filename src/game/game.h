@@ -17,6 +17,8 @@ class Game {
 
         /// @brief -1 = none, 0 = peashooter, 1 = sunflower
         int selectedPlant = -1;
+        /// @brief Whether or not a sunflower is spawning a sun this frame.
+        bool requestedSun = false;
 
         Game();
         int randiRange(int,int);
@@ -87,6 +89,12 @@ class Game {
          * @author Ryan
          */
         bool isCellOccupied(Vector2 gridpos);
+
+        /**
+         * Allows sunflowers to create sun particles (cant pass pointer from other scope).
+         * @author Ryan
+         */
+        void requestSpawnSun();
 };
 
 #endif

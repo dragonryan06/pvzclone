@@ -28,8 +28,9 @@ float Game::randfRange(float min, float max) {
 
 // One tick of the game; return true if the player lost this tick.
 bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
-    if (tick%250 == 0) { // every 250 ticks, spawn a new sun from the sky.
+    if (tick%250 == 0 || requestedSun) { // every 250 ticks, spawn a new sun from the sky.
         spawnSunParticle();
+        requestedSun = false;
     }
 
     // List of indicies of entities that are being removed this tick.
@@ -38,14 +39,14 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
     if (!event->empty && !event->mouse_down && selectedPlant != -1) {
         Vector2 gridPos = screenToGrid(event->start);
         if ((int)gridPos.x >= 0 && (int)gridPos.y >= 0 && (int)gridPos.x < 9 && (int)gridPos.y < 5 && !isCellOccupied(gridPos)) {
-            if (selectedPlant == 0) { // Peashooter
+            if (selectedPlant == 0 && sunAmount >= 100) { // Peashooter
                 setCellState(gridPos,true);
-                std::cout << "Peashooter placed";
-            } else if (selectedPlant == 1) { // Sunflower
+                std::cout << "Peashooter placed\n";
+            } else if (selectedPlant == 1 && sunAmount >= 50) { // Sunflower
                 setCellState(gridPos,true);
                 std::shared_ptr<Entity> newSunflower (new Sunflower(gridPos.x,gridPos.y));
                 entities.push_back(newSunflower);
-                std::cout << "Sunflower placed";
+                sunAmount-=50;
             }
         }
     }
@@ -111,6 +112,14 @@ void Game::cleanUp() {
     totalSun = 0;
     totalKills = 0;
     plantsPlaced = 0;
+    grid = {
+        {false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false}
+    };
+    selectedPlant = -1;
 }
 
 void Game::selectPlant(int which) {
@@ -118,7 +127,7 @@ void Game::selectPlant(int which) {
 }
 
 Vector2 Game::screenToGrid(Vector2 pos) {
-    return Vector2{(pos.x+topLeft.x)/cellDim.x, (pos.y+topLeft.y)/cellDim.y};
+    return Vector2{(pos.x)/cellDim.x, (pos.y)/cellDim.y};
 }
 
 void Game::setCellState(Vector2 gridpos, bool state) {
@@ -127,4 +136,8 @@ void Game::setCellState(Vector2 gridpos, bool state) {
 
 bool Game::isCellOccupied(Vector2 gridpos) {
     return grid.at((int)gridpos.y).at((int)gridpos.x);
+}
+
+void Game::requestSpawnSun() {
+    requestedSun = true;
 }

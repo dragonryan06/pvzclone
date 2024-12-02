@@ -84,7 +84,7 @@ void SunParticle::update() {
 }
 
 Plant::Plant(int grid_x, int grid_y, char tex[]) : Entity((grid_x*Game::instance().cellDim.x)+Game::instance().topLeft.x,(grid_y*Game::instance().cellDim.y)+Game::instance().topLeft.y,31,41,tex) {
-    
+
 }
 
 Sunflower::Sunflower(int grid_x, int grid_y) : Plant(grid_x,grid_y,"res/entity/sunflower.png") {
@@ -95,7 +95,9 @@ void Sunflower::update() {
     cooldown++;
     if (cooldown > cooldownMax) {
         cooldown = 0;
-        // silly, but we drop a new one from the sky.
-        Game::instance().spawnSunParticle();
+        // Can't just call spawnSunParticle, due to pointer stuff.
+        // Plus, this limits the sun per tick.
+        Game::instance().requestSpawnSun();
     }
+    sprite.draw();
 }
