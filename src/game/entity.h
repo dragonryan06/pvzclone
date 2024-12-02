@@ -19,7 +19,7 @@ class Entity {
 
 class Zombie : public Entity {
     protected:
-        int health;
+        int health=5;
     public:
         Zombie(Vector2);
         Zombie(float, float);
@@ -47,11 +47,26 @@ class PeaProjectile : public Entity {
 
 class Plant : public Entity {
     protected:
-        int cooldown;
+        int cooldown {0};
     public:
-        Plant(Vector2);
-        Plant(float, float);
+        Plant(int grid_x, int grid_y, char tex[]);
+};
+
+class Sunflower : public Plant {
+    private:
+        const int cooldownMax = 100;
+    public:
+        Sunflower(int grid_x, int grid_y);
         void update();
 };
+
+class Peashooter : public Plant {
+    private:
+        const int cooldownMax = 50;
+    public:
+        Peashooter(int grid_x, int grid_y);
+        void update();
+};
+
 
 #endif
