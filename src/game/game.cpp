@@ -8,7 +8,7 @@
 Game::Game() { }
 
 void Game::init() {
-    sunAmount=50; //Start with 50 sun
+    sunAmount=500000; //Start with 50 sun
     // Seed the generator to seconds since 1970
     srand(time(0));
     // Record start time
@@ -43,11 +43,13 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
             if (selectedPlant == 0 && sunAmount >= 100) { // Peashooter
                 setCellState(gridPos,true);
                 std::cout << "Peashooter placed\n";
+                plantsPlaced++;
             } else if (selectedPlant == 1 && sunAmount >= 50) { // Sunflower
                 setCellState(gridPos,true);
                 std::shared_ptr<Entity> newSunflower (new Sunflower(gridPos.x,gridPos.y));
                 entities.push_back(newSunflower);
                 sunAmount-=50;
+                plantsPlaced++;
             }
         }
     }
@@ -135,7 +137,7 @@ void Game::selectPlant(int which) {
 }
 
 Vector2 Game::screenToGrid(Vector2 pos) {
-    return Vector2{(pos.x)/cellDim.x, (pos.y)/cellDim.y};
+    return Vector2{(pos.x)/cellDim.x, (pos.y)/cellDim.y - 1};
 }
 
 void Game::setCellState(Vector2 gridpos, bool state) {
