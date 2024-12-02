@@ -88,13 +88,13 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
     // Writing twice to do a word shadow thing; first in black then in font color
     int currentTime = time(0)-startTime;
     LCD.SetFontColor(BLACK);
-    LCD.WriteAt(sunAmount,5,5);
-    LCD.WriteAt(stringifyTime(currentTime),131,5);
+    LCD.WriteAt(sunAmount,245,11);
+    LCD.WriteAt(stringifyTime(currentTime),5,5);
 
     LCD.SetFontColor(YELLOW);
-    LCD.WriteAt(sunAmount,4,4);
+    LCD.WriteAt(sunAmount,244,10);
     LCD.SetFontColor(RED);
-    LCD.WriteAt(stringifyTime(currentTime),130,4);
+    LCD.WriteAt(stringifyTime(currentTime),4,4);
     tick++;
     return false;
 }

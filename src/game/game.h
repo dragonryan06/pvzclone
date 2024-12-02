@@ -49,11 +49,6 @@ class Game {
          */
         float randfRange(float min, float max);
         /**
-         * Spawn a SunParticle at a random position and have it fly onscreen.
-         * @author Ryan
-         */
-        void spawnSunParticle();
-        /**
          * Spawn a Zombie at a random position.
          * @author Ryan
          */
@@ -116,6 +111,10 @@ class Game {
          */
         void cleanUp();
 
+        /**
+         * Spawn a SunParticle at a random position and have it fly onscreen.
+         * @author Ryan
+         */
         void spawnSunParticle();
 
         /**

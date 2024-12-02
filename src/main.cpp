@@ -90,7 +90,7 @@ int main() {
                 // (This is a kind of messy way of doing these pop-ups, but I don't want to over-engineer it.)
                 int idx = 0;
                 for (auto&& button : mainMenuClickables) {
-                    bool release = button->poll(event);
+                    bool release = button->poll(std::shared_ptr<ClickEvent>(&event));
                     if (release) {
                         switch (idx) {
                             case 0: // PLAY
