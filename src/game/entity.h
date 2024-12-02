@@ -47,12 +47,24 @@ class PeaProjectile : public Entity {
 
 class Plant : public Entity {
     protected:
-        int cooldown;
-        int health=4;
+        int cooldown {0};
     public:
-        Plant(Vector2);
-        Plant(float, float);
-        const char *type;
+        Plant(int grid_x, int grid_y, char tex[]);
+};
+
+class Sunflower : public Plant {
+    private:
+        const int cooldownMax = 100;
+    public:
+        Sunflower(int grid_x, int grid_y);
+        void update();
+};
+
+class Peashooter : public Plant {
+    private:
+        const int cooldownMax = 50;
+    public:
+        Peashooter(int grid_x, int grid_y);
         void update();
 };
 

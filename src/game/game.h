@@ -15,6 +15,14 @@ class Game {
         int sunAmount {0};
         std::vector<std::shared_ptr<Entity>> entities;
 
+        /// @brief -1 = none, 0 = peashooter, 1 = sunflower
+        int selectedPlant = -1;
+
+        Game();
+        int randiRange(int,int);
+        float randfRange(float,float);
+
+    public:
         /// @brief The top left corner of the grid.
         const Vector2 topLeft {9,36};
         /// @brief The bottom right corner of the grid.
@@ -31,12 +39,6 @@ class Game {
             {false, false, false, false, false, false, false, false, false}
         };
 
-        Game();
-        int randiRange(int,int);
-        float randfRange(float,float);
-        void spawnSunParticle();
-
-    public:
         // Tracked stats
         int timeSurvived {0};
         int totalSun {0};
@@ -54,6 +56,15 @@ class Game {
         // Clean up so the game is in a pre-init state.
         void cleanUp();
 
+        void spawnSunParticle();
+
+        /**
+         * Sets the value of selectedPlant to the value of which.
+         *      @param which The value to set it to.
+         * @author Ryan
+         */
+        void selectPlant(int which);
+
         /**
          * Converts a screen position Vector2 to a grid position.
          *      @param pos The screen position.
@@ -69,6 +80,13 @@ class Game {
          * @author Daniel and Ryan
          */
         void setCellState(Vector2 gridpos, bool state);
+
+        /**
+         * Check if the cell at gridpos is occupied.
+         *      @param gridpos The grid cell to check.
+         * @author Ryan
+         */
+        bool isCellOccupied(Vector2 gridpos);
 };
 
 #endif
