@@ -35,7 +35,7 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
         projectiles.push_back(p);
         requestedPea = Vector2{-1,-1};
     }
-    if (tick%(300-tick/300) == 0) { // every 300 ticks, increasing as ticks increases.
+    if (tick%(300-tick/50) == 0) { // every 300 ticks, increasing as ticks increases.
         spawnZombie();
     }
 

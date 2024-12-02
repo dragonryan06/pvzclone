@@ -141,7 +141,7 @@ class Plant : public Entity {
 
 class Sunflower : public Plant {
     private:
-        const int cooldownMax = 100;
+        const int cooldownMax = 250;
     public:
         Sunflower(int grid_x, int grid_y);
         void update();
