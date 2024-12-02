@@ -9,6 +9,23 @@
 #include <memory>
 #include <iostream>
 
+/**
+ * Program main method.
+ * 
+ * Handles game loop, menu logic, input routing, and basically everything else.
+ * Main purpose is to act as a bridge between the engine and the game.
+ * 
+ * stackoverflow.com and en.cppreference.com helped a LOT with some of the more complicated stuff.
+ * Especially with figuring out the polymorphic pointers you see throughout the program:
+ *      https://en.cppreference.com/w/cpp/memory/shared_ptr
+ *      https://www.geeksforgeeks.org/shared_ptr-in-cpp/
+ *      https://stackoverflow.com/questions/23795265/dynamic-cast-across-a-shared-ptr
+ * 
+ * Discovering shared_ptr helped us a ton because it basically allows you to do higher-level 
+ * language stuff in C++, and essentially you can treat shared_ptr's as Java reference types. (at least in my experience lol -ryan)
+ * 
+ * @author Ryan and Daniel
+ */
 int main() {
     bool running = true;
 
