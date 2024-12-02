@@ -73,6 +73,13 @@ class Zombie : public Entity {
          */
         Zombie(float x, float y);
         /**
+         * Lowers this zombie's hitpoints by 1, returns true if killed.
+         *      @returns True if the zombie was killed by this hit.
+         * @author Ryan
+         */
+        bool hurt();
+
+        /**
          * Local implementation of virtual void Entity::update()
          * @author Ryan
          */

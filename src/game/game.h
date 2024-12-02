@@ -25,6 +25,8 @@ class Game {
         int sunAmount {0};
         /// @brief The game objects' update & draw buffer.
         std::vector<std::shared_ptr<Entity>> entities;
+        /// @brief Additional references to zombie-colliding projectiles.
+        std::vector<std::shared_ptr<PeaProjectile>> projectiles;
 
         /// @brief -1 = none, 0 = peashooter, 1 = sunflower
         int selectedPlant = -1;

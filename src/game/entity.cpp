@@ -32,6 +32,11 @@ Zombie::Zombie(float x, float y) : Entity(x, y, 35, 60, "res/entity/zombieadam.p
     velocity = Vector2{-0.25, 0};
 }
 
+bool Zombie::hurt() {
+    health--;
+    return health == 0;
+}
+
 void Zombie::update() {
     position.x += velocity.x;
     position.y += velocity.y;

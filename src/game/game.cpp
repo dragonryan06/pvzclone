@@ -8,7 +8,7 @@
 Game::Game() { }
 
 void Game::init() {
-    sunAmount=500000; //Start with 50 sun
+    sunAmount=50; //Start with 50 sun
     // Seed the generator to seconds since 1970
     srand(time(0));
     // Record start time
@@ -31,8 +31,8 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
         requestedSun = false;
     }
     if (requestedPea.x != -1) {
-        std::shared_ptr<Entity> p (new PeaProjectile(requestedPea));
-        entities.push_back(p);
+        std::shared_ptr<PeaProjectile> p (new PeaProjectile(requestedPea));
+        projectiles.push_back(p);
         requestedPea = Vector2{-1,-1};
     }
     if (tick%(300-tick/300) == 0) { // every 300 ticks, increasing as ticks increases.
@@ -41,6 +41,8 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
 
     // List of indicies of entities that are being removed this tick.
     std::vector<int> removing;
+    // List of indicies of projectiles that collided this tick.
+    std::vector<int> removingProjectiles;
 
     if (!event->empty && !event->mouse_down && selectedPlant != -1) {
         Vector2 gridPos = screenToGrid(event->start);
@@ -87,13 +89,37 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
                 timeSurvived = time(0)-startTime;
                 return true;
             }
+            int p_idx = 0;
+            for (auto&& pea : projectiles) {
+                Vector2 p = pea->getPosition(), z = zombie->getPosition();
+                // Quick rectangle collision
+                if (p.x > z.x && p.x < z.x+35 && p.y > z.y && p.y < z.y+60) {
+                    if (zombie->hurt()) {
+                        removing.push_back(idx);
+                        totalKills++;
+                    }
+                    removingProjectiles.push_back(p_idx);
+                }
+                if (pea->getPosition().x > 320) {
+                    removingProjectiles.push_back(p_idx);
+                }
+                p_idx++;
+            }
         }
         idx++;
+    }
+
+    // Draw projectiles
+    for (auto && projectile : projectiles) {
+        projectile->update();
     }
 
     // Remove entities
     for (int i : removing) {
         entities.erase(entities.begin() + i);
+    }
+    for (int i : removingProjectiles) {
+        projectiles.erase(projectiles.begin() + i);
     }
 
     // Writing twice to do a word shadow thing; first in black then in font color
