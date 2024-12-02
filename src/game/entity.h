@@ -22,18 +22,8 @@ class Zombie : public Entity {
         int health=5;
     public:
         Zombie(Vector2);
-        int width=9,height=28;
         Zombie(float, float);
-
-        // Method to check if the zombie has been hit by a projectile
-        bool checkHit(Vector2 projPos, int projWidth, int projHeight) {
-            // Check if the projectile intersects with the zombie's position
-            bool hitX = projPos.x >= position.x && projPos.x <= position.x + width;
-            bool hitY = projPos.y >= position.y && projPos.y <= position.y + height;
-
-            return hitX && hitY;
-            void update();
-        }
+        void update();
 };
 
 class SunParticle : public Entity {

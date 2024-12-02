@@ -97,3 +97,12 @@ void Game::cleanUp() {
     totalKills = 0;
     plantsPlaced = 0;
 }
+
+Vector2 Game::screenToGrid(Vector2 pos) {
+    // Use integer division
+    return Vector2{pos.x/cellDim.x, pos.y/cellDim.y};
+}
+
+void Game::setCellState(Vector2 gridpos, bool state) {
+    grid[(int)gridpos.x][(int)gridpos.y] = state;
+}
