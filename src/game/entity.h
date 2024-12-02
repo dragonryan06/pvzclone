@@ -132,32 +132,86 @@ class SunParticle : public Entity {
         void update();
 };
 
+/**
+ * Base class for plants. Due to complications with implementing grid system, holds no reference to grid.
+ * @author Ryan and Daniel
+ */
 class Plant : public Entity {
     protected:
+        /// @brief The current ticks since last activation.
         int cooldown {0};
     public:
+        /**
+         * Constructs a plant at a grid position, using the texture.
+         *      @param grid_x The grid X position.
+         *      @param grid_y The grid Y position. 
+         *      @param tex A valid png filepath to the texture.
+         */
         Plant(int grid_x, int grid_y, char tex[]);
 };
 
+/**
+ * Sunflower, one of two plants.
+ * @author Ryan
+ */
 class Sunflower : public Plant {
     private:
+        /// @brief The value of cooldown at which another activation occurs.
         const int cooldownMax = 250;
     public:
+        /**
+         * Constructs a sunflower at a grid position.
+         *      @param grid_x The grid X position.
+         *      @param grid_y The grid Y position.
+         * @author Ryan
+         */
         Sunflower(int grid_x, int grid_y);
+        /**
+         * Local implementation of virtual void Entity::update()
+         * @author Ryan
+         */
         void update();
 };
 
+/**
+ * Peashooter, the other of two plants.
+ * @author Ryan
+ */
 class Peashooter : public Plant {
     private:
+        /// @brief The value of cooldown at which another activation occurs.
         const int cooldownMax = 50;
     public:
+        /**
+         * Constructs a peashooter at a grid position.
+         *      @param grid_x The grid X position. 
+         *      @param grid_y The grid Y position.
+         * @author Ryan
+         */
         Peashooter(int grid_x, int grid_y);
+        /**
+         * Local implementation of virtual void Entity::update()
+         * @author Ryan
+         */
         void update();
 };
 
+/**
+ * A PeaProjectile, fired from a Peashooter.
+ * @author Ryan
+ */
 class PeaProjectile : public Entity {
     public:
+        /**
+         * Constructs a PeaProjectile at the given position.
+         *      @param pos The position.
+         * @author Ryan
+         */
         PeaProjectile(Vector2 pos);
+        /**
+         * Local implementation of virtual void Entity::update()
+         * @author Ryan
+         */
         void update();
 };
 
