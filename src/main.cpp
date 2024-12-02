@@ -36,7 +36,6 @@ int main() {
     int mostSun = 0;
     int mostKills = 0;
     int mostPlanted = 0;
-
     
     // Instantiate the main menu canvas
     // Note: order of this vector corresponds to draw order.
@@ -91,7 +90,7 @@ int main() {
                 // (This is a kind of messy way of doing these pop-ups, but I don't want to over-engineer it.)
                 int idx = 0;
                 for (auto&& button : mainMenuClickables) {
-                    bool release = button->poll(std::shared_ptr<ClickEvent>(&event));
+                    bool release = button->poll(event);
                     if (release) {
                         switch (idx) {
                             case 0: // PLAY
