@@ -40,4 +40,4 @@ simulator_libraries/
 *.code_workspace
 
 # Project specific
-game
+game.exe

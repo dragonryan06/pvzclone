@@ -3,15 +3,39 @@
 #include "global.h"
 #include "engine/input.h"
 #include "engine/interface.h"
+#include "game/game.h"
 
 #include <vector>
 #include <memory>
 #include <iostream>
 
+/**
+ * Program main method.
+ * 
+ * Handles game loop, menu logic, input routing, and basically everything else.
+ * Main purpose is to act as a bridge between the engine and the game.
+ * 
+ * stackoverflow.com and en.cppreference.com helped a LOT with some of the more complicated stuff.
+ * Especially with figuring out the polymorphic pointers you see throughout the program:
+ *      https://en.cppreference.com/w/cpp/memory/shared_ptr
+ *      https://www.geeksforgeeks.org/shared_ptr-in-cpp/
+ *      https://stackoverflow.com/questions/23795265/dynamic-cast-across-a-shared-ptr
+ * 
+ * Discovering shared_ptr helped us a ton because it basically allows you to do higher-level 
+ * language stuff in C++, and essentially you can treat shared_ptr's as Java reference types. (at least in my experience lol -ryan)
+ * 
+ * @author Ryan and Daniel
+ */
 int main() {
     bool running = true;
 
     bool mainMenu = true;
+
+    // SESSION STATS
+    int longestTime = 0;
+    int mostSun = 0;
+    int mostKills = 0;
+    int mostPlanted = 0;
     
     // Instantiate the main menu canvas
     // Note: order of this vector corresponds to draw order.
@@ -40,18 +64,27 @@ int main() {
     };
 
     // GAME
-    Sprite gameBackground(0,0,320,240,"res/backdrop/gamedrop.png");
+    // PlantPlacement plantPlacement;
 
-    std::vector<CanvasItem*> gameCanvas = {
-        &gameBackground
+    // Instantiate the game canvas
+    std::vector<std::shared_ptr<CanvasItem>> gameCanvas = {
+        std::shared_ptr<CanvasItem>(new Sprite(0,0,320,240,"res/backdrop/gamedrop.png")),
+        std::shared_ptr<CanvasItem>(new TextureButton(156,3,24,29, "res/ui/peashooterbutton_def.png", "res/ui/peashooterbutton_prs.png")),
+        std::shared_ptr<CanvasItem>(new TextureButton(183,3,24,29, "res/ui/sunflowerbutton_def.png", "res/ui/sunflowerbutton_prs.png"))
+    };
+
+    // Register buttons
+    std::vector<std::shared_ptr<Button>> gameClickables = {
+        std::shared_ptr<Button>(static_cast<Button*>(gameCanvas.at(1).get())),
+        std::shared_ptr<Button>(static_cast<Button*>(gameCanvas.at(2).get())),
     };
 
     // MAIN LOOP
     while (running) {
         LCD.Clear(BLACK);
 
-        ClickEvent* event = Input::instance().update();
-        if (event != NULL) {
+        ClickEvent event = Input::instance().update();
+        if (!event.empty) {
             if (mainMenu) {
                 // Poll buttons and clickables
                 // (This is a kind of messy way of doing these pop-ups, but I don't want to over-engineer it.)
@@ -62,6 +95,7 @@ int main() {
                         switch (idx) {
                             case 0: // PLAY
                                 mainMenu = false;
+                                Game::instance().init();
                                 break;
                             case 1: // HOW TO PLAY
                                 mainMenuCanvas.at(5)->show();
@@ -89,6 +123,23 @@ int main() {
                 }
             } else {
                 // Poll buttons and clickables
+                int idx = 0;
+                for (auto&& button : gameClickables) {
+                    bool release = button->poll(std::shared_ptr<ClickEvent>(&event));
+                    if (release) {
+                        switch (idx) {
+                            case 0: // Peashooter
+                                Game::instance().selectPlant(0);
+                                break;
+                            case 1: // Sunflower
+                                Game::instance().selectPlant(1);
+                                break;
+                            default:
+                                std::cout << "Button registry error!";
+                        }
+                    }
+                    idx++;
+                }
             }
         }
 
@@ -96,10 +147,40 @@ int main() {
             for (auto&& item : mainMenuCanvas) {
                 item->draw();
             }
+            if (mainMenuCanvas.at(6)->isVisible()) {
+                // Writing twice for word shadow
+                LCD.SetFontColor(BLACK);
+                LCD.WriteAt(stringifyTime(longestTime),131,70);
+                LCD.WriteAt(mostSun,141,120);
+                LCD.WriteAt(mostKills,141,165);
+                LCD.WriteAt(mostPlanted,141,210);
+
+                LCD.SetFontColor(WHITE);
+                LCD.WriteAt(stringifyTime(longestTime),130,69);
+                LCD.WriteAt(mostSun,140,119);
+                LCD.WriteAt(mostKills,140,164);
+                LCD.WriteAt(mostPlanted,140,209);
+            }
         } else {
-            // draw game
-            for (CanvasItem* c : gameCanvas) {
-                (*c).draw();
+            for (auto&& item : gameCanvas) {
+                item->draw();
+            }
+            if (Game::instance().updateGame(std::shared_ptr<ClickEvent>(&event))) {
+                // Draw game over screen and wait for touch to continue
+
+                FEHImage gameOverScreen("res/backdrop/gameover.png");
+                int _x, _y;
+                while (!LCD.Touch(&_x,&_y)) {
+                    gameOverScreen.Draw(0,0);
+                }
+
+                // Update stats
+                if (Game::instance().timeSurvived > longestTime) longestTime = Game::instance().timeSurvived;
+                if (Game::instance().totalSun > mostSun) mostSun = Game::instance().totalSun;
+                if (Game::instance().totalKills > mostKills) mostKills = Game::instance().totalKills;
+                if (Game::instance().plantsPlaced > mostPlanted) mostPlanted = Game::instance().plantsPlaced;
+                Game::instance().cleanUp();
+                mainMenu = true;
             }
         }
 
