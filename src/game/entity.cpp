@@ -3,6 +3,7 @@
 #include "../engine/interface.h"
 #include "entity.h"
 #include "../global.h"
+#include "game.h"
 
 
 Entity::Entity(Vector2 pos, Vector2 siz, char spr[]) {
@@ -79,5 +80,24 @@ void SunParticle::update() {
     else if (velocity.y < -DRAG_FACTOR) velocity.y += DRAG_FACTOR; 
     else velocity.y = 0;
 
+    sprite.draw();
+}
+
+Plant::Plant(int grid_x, int grid_y, char tex[]) : Entity((grid_x*Game::instance().cellDim.x)+Game::instance().topLeft.x,(grid_y*Game::instance().cellDim.y)+Game::instance().topLeft.y,31,41,tex) {
+
+}
+
+Sunflower::Sunflower(int grid_x, int grid_y) : Plant(grid_x,grid_y,"res/entity/sunflower.png") {
+
+}
+
+void Sunflower::update() {
+    cooldown++;
+    if (cooldown > cooldownMax) {
+        cooldown = 0;
+        // Can't just call spawnSunParticle, due to pointer stuff.
+        // Plus, this limits the sun per tick.
+        Game::instance().requestSpawnSun();
+    }
     sprite.draw();
 }

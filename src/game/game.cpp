@@ -8,6 +8,7 @@
 Game::Game() { }
 
 void Game::init() {
+    sunAmount=500000; //Start with 50 sun
     // Seed the generator to seconds since 1970
     srand(time(0));
     // Record start time
@@ -25,8 +26,9 @@ float Game::randfRange(float min, float max) {
 
 // One tick of the game; return true if the player lost this tick.
 bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
-    if (tick%250 == 0) { // every 250 ticks, spawn a new sun from the sky.
+    if (tick%250 == 0 || requestedSun) { // every 250 ticks, spawn a new sun from the sky.
         spawnSunParticle();
+        requestedSun = false;
     }
     if (tick%(300-tick/300) == 0) { // every 300 ticks, increasing as ticks increases.
         spawnZombie();
@@ -34,6 +36,23 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
 
     // List of indicies of entities that are being removed this tick.
     std::vector<int> removing;
+
+    if (!event->empty && !event->mouse_down && selectedPlant != -1) {
+        Vector2 gridPos = screenToGrid(event->start);
+        if ((int)gridPos.x >= 0 && (int)gridPos.y >= 0 && (int)gridPos.x < 9 && (int)gridPos.y < 5 && !isCellOccupied(gridPos)) {
+            if (selectedPlant == 0 && sunAmount >= 100) { // Peashooter
+                setCellState(gridPos,true);
+                std::cout << "Peashooter placed\n";
+                plantsPlaced++;
+            } else if (selectedPlant == 1 && sunAmount >= 50) { // Sunflower
+                setCellState(gridPos,true);
+                std::shared_ptr<Entity> newSunflower (new Sunflower(gridPos.x,gridPos.y));
+                entities.push_back(newSunflower);
+                sunAmount-=50;
+                plantsPlaced++;
+            }
+        }
+    }
 
     int idx = 0;
     for (auto&& entity : entities) {
@@ -43,8 +62,8 @@ bool Game::updateGame(std::shared_ptr<ClickEvent> event) {
             std::shared_ptr<SunParticle> sun = std::dynamic_pointer_cast<SunParticle>(entity);
             if (!event->empty && sun->poll(event)) {
                 sun->flyOut();
-                sunAmount += 50;
-                totalSun += 50;
+                sunAmount += 25;
+                totalSun += 25;
             }
             // This sun has flown out; we can mark it for deletion.
             if (sun->getPosition().x < 0 && sun->getPosition().y < 0) {
@@ -103,4 +122,32 @@ void Game::cleanUp() {
     totalSun = 0;
     totalKills = 0;
     plantsPlaced = 0;
+    grid = {
+        {false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false},
+        {false, false, false, false, false, false, false, false, false}
+    };
+    selectedPlant = -1;
+}
+
+void Game::selectPlant(int which) {
+    selectedPlant = which;
+}
+
+Vector2 Game::screenToGrid(Vector2 pos) {
+    return Vector2{(pos.x)/cellDim.x, (pos.y)/cellDim.y - 1};
+}
+
+void Game::setCellState(Vector2 gridpos, bool state) {
+    grid.at((int)gridpos.y).at((int)gridpos.x) = state;
+}
+
+bool Game::isCellOccupied(Vector2 gridpos) {
+    return grid.at((int)gridpos.y).at((int)gridpos.x);
+}
+
+void Game::requestSpawnSun() {
+    requestedSun = true;
 }
