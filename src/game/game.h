@@ -30,6 +30,8 @@ class Game {
         int selectedPlant = -1;
         /// @brief Whether or not a sunflower is spawning a sun this frame.
         bool requestedSun = false;
+        /// @brief A possible location a peashooter is firing this frame. -1,-1 if none.
+        Vector2 requestedPea {-1,-1};
         /// @brief Privated constructor to prevent double-instantiation.
         Game();
         /**
@@ -152,6 +154,13 @@ class Game {
          * @author Ryan
          */
         void requestSpawnSun();
+
+        /**
+         * Peashooter callback to spawn a pea at a location.
+         *      @param pos The position to spawn the pea at.
+         * @author Ryan
+         */
+        void shootPea(Vector2 pos);
 };
 
 #endif

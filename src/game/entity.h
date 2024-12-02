@@ -125,13 +125,6 @@ class SunParticle : public Entity {
         void update();
 };
 
-class PeaProjectile : public Entity {
-    public:
-        PeaProjectile(Vector2);
-        PeaProjectile(float, float);
-        void update();
-};
-
 class Plant : public Entity {
     protected:
         int cooldown {0};
@@ -155,5 +148,10 @@ class Peashooter : public Plant {
         void update();
 };
 
+class PeaProjectile : public Entity {
+    public:
+        PeaProjectile(Vector2 pos);
+        void update();
+};
 
 #endif
